@@ -1,3 +1,6 @@
 masdigi-controller/node_modules
+masdigi-controller/dist
 masdigi-fe/node_modules
 masdigi-tv/node_modules
+masdigi-tv/public
+masdigi-tv/dist
