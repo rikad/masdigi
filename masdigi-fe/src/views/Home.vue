@@ -195,22 +195,30 @@ export default {
     //run every 5 second
     setInterval(function () {
       app.$store.dispatch("GET_CONFIG");
-      app.$store.dispatch("GET_PRAYTIME");
+
+      // disabled praytime api
+      // app.$store.dispatch("GET_PRAYTIME");
+
     }, 5000);
 
   },
   methods: {
     getPraytime() {
-      let d = new Date();
-      let date = d.getDate();
+      //praytime from api
+      // let d = new Date();
+      // let date = d.getDate();
+      // let data = this.$store.state.config.data;
+      // if(data.praytime) { 
+      //   if(data.praytime[date]) {
+      //     this.praytime = data.praytime[date].times
+      //   } else {
+      //     this.praytime = data.praytime[0].times
+      //   }
+      // }
+      //end of praytime from api
+
       let data = this.$store.state.config.data;
-      if(data.praytime) { 
-        if(data.praytime[date]) {
-          this.praytime = data.praytime[date].times
-        } else {
-          this.praytime = data.praytime[0].times
-        }
-      }
+      this.praytime = data.praytimeManual
     },
     getTime() {
       let d = new Date();

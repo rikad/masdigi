@@ -17,6 +17,14 @@ export default new Vuex.Store({
         phone: '...',
         announcement: '...',
         prayzone: 'bandung',
+        praytimeManual: {
+          Imsak: "04:11",
+          Fajr: "05:33",
+          Dhuhr: "04:21",
+          Asr: "15:20",
+          Maghrib: "18:23",
+          Isha: "19:20",
+        },
         praytime: [
           {
             "times": {
@@ -57,6 +65,9 @@ export default new Vuex.Store({
     },
     SET_PRAYTIME: (state, payload) => {
       state.config.data.praytime = payload
+    },
+    SET_PRAYTIME_MANUAL: (state, payload) => {
+      state.config.data.praytimeManual = payload
     }
   },
   actions: {
