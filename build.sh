@@ -34,8 +34,13 @@ cd ..
 echo 'COPY GALERI'
 cp -r galeri masdigi-tv/public/
 
-echo 'BUILD APK'
+echo 'BUILD APK TV'
 cd ./masdigi-tv
+npm run build
+cd ..
+
+echo 'BUILD APK Controller'
+cd ./masdigi-controller
 npm run build
 cd ..
 
