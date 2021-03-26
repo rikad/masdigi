@@ -11,10 +11,10 @@
             <p class="version pb-2">v 1.0</p>
 
             <b-nav card-header tabs justified align="center">
-              <b-nav-item to="/config/" exact exact-active-class="active">Umum</b-nav-item>
-              <b-nav-item to="/config/galeri" exact exact-active-class="active">Galeri</b-nav-item>
-              <b-nav-item to="/config/pengumuman" exact exact-active-class="active">Pengumuman</b-nav-item>
-              <b-nav-item to="/config/praytime" exact exact-active-class="active">Waktu</b-nav-item>
+              <b-nav-item to="/" exact exact-active-class="active">Umum</b-nav-item>
+              <b-nav-item to="/galeri" exact exact-active-class="active">Galeri</b-nav-item>
+              <b-nav-item to="/pengumuman" exact exact-active-class="active">Pengumuman</b-nav-item>
+              <b-nav-item to="/praytime" exact exact-active-class="active">Waktu</b-nav-item>
             </b-nav>
 
           </b-card-header>
