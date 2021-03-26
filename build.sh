@@ -2,6 +2,7 @@
 
 echo 'REMOVE PUBLIC FILE'
 rm -rf masdigi-tv/public
+rm -rf masdigi-controller/views
 pwd
 
 echo "do you want to check update package ?"
@@ -24,6 +25,12 @@ then
    npm install
    cd ..
 fi
+
+echo 'BUILD FE CONFIG AND MOVE TO BE CONFIG'
+cd ./masdigi-config
+npm run build
+mv ./dist ../masdigi-controller/views
+cd ..
 
 echo 'BUILD FE AND MOVE TO BE'
 cd ./masdigi-fe
