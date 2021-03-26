@@ -19,6 +19,7 @@
     "license": "ISC",
     "dependencies": {
         "androidjs": "^2.0.2",
+        "express": "^4.17.1",
         "url-exists": "^1.0.3"
     },
     "project-name": "masdigi-controller",

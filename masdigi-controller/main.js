@@ -1,14 +1,12 @@
-const back = require('androidjs').back;
-const urlExists = require("url-exists");
+const express = require('express')
+const app = express()
+const ip = 'localhost'
+const port = 3000
+const path = require('path');
+const publicPath = path.join(__dirname,'public')
 
-back.on("hello from front", function() {
+app.use(express.static(publicPath))
 
-	urlExists('http://192.168.43.1', function(err, exists) {
-		if (exists) {
-		  back.send("hello from back", "Hello from Android JS");
-		} else {
-		//   back.send('not valid');
-		}
-	});
-
-});
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})

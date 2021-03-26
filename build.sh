@@ -2,7 +2,7 @@
 
 echo 'REMOVE PUBLIC FILE'
 rm -rf masdigi-tv/public
-rm -rf masdigi-controller/views
+rm -rf masdigi-controller/public
 pwd
 
 echo "do you want to check update package ?"
@@ -29,7 +29,7 @@ fi
 echo 'BUILD FE CONFIG AND MOVE TO BE CONFIG'
 cd ./masdigi-config
 npm run build
-mv ./dist ../masdigi-controller/views
+mv ./dist ../masdigi-controller/public
 cd ..
 
 echo 'BUILD FE AND MOVE TO BE'
