@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "masdigi-controller",
     "app-name": "masdigi-controller",
-    "package-name": "id.ngulik.masdigi-controller",
+    "package-name": "id.ngulik.masdigicontroller",
     "project-type": "webview",
     "icon": "./assets/icon/icon.png",
     "dist-path": "./dist",
