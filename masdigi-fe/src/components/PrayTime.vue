@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div style="padding:2rem">
+        <h6>Tanggal & Waktu</h6>
+        <hr>
+        <b-form-datepicker v-model="date" class="mb-2"></b-form-datepicker>
+        <b-form-timepicker v-model="time" locale="id"></b-form-timepicker>
+        <hr>
+        <!-- <p>{{ date }} {{ time }} : {{ differenceSelectedToSytemTimestamp() }}</p> -->
+    </div>
+    <hr>
+
     <b-row>
       <b-col md="auto">
         <h3>Imsak</h3>
@@ -56,7 +66,8 @@ export default {
         Maghrib: "",
         Isha: ""
       },
-      context: null
+      date: '',
+      time: ''
     };
   },
   mounted: function () {
@@ -66,11 +77,39 @@ export default {
     this.form.Asr = this.$store.state.config.data.praytimeManual.Asr;
     this.form.Maghrib = this.$store.state.config.data.praytimeManual.Maghrib;
     this.form.Isha = this.$store.state.config.data.praytimeManual.Isha;
+
+    let d = this.getCurrentDateObject();
+    this.date = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    this.time = `${d.getHours()}:${d.getMinutes()}`;
   },
   methods: {
+    getCurrentDateObject() {
+      let d = new Date();
+      d = new Date(d.getTime() - this.$store.state.config.data.differenceSelectedToSytemTimestamp);
+      return d;
+    },
     save: function () {
-      this.$store.commit("SET_PRAYTIME_MANUAL", this.form);
-      this.$store.dispatch("SAVE_CONFIG");
+        this.$store.commit("SET_DIFFERENCE", this.differenceSelectedToSytemTimestamp());
+        this.$store.commit("SET_PRAYTIME_MANUAL", this.form);
+        this.$store.dispatch("SAVE_CONFIG");
+
+        this.$bvToast.toast(`Menyimpan Data`, {
+          title: 'Menyimpan',
+          autoHideDelay: 5000,
+        });
+    },
+    datetimeTotimestamp(date) {
+        return new Date(date).getTime();
+    },
+    selectedTimeToTimestamp() {
+        return this.datetimeTotimestamp(`${this.date} ${this.time}`);
+    },
+    differenceSelectedToSytemTimestamp() {
+        let selected = this.selectedTimeToTimestamp();
+        let system = this.datetimeTotimestamp(new Date().getTime());
+        let diff = system - selected;
+        
+        return isNaN(diff) ? 0 : diff;
     }
   },
 };

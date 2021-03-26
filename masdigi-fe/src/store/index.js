@@ -12,11 +12,12 @@ export default new Vuex.Store({
     config: {
       version: '0',
       data: {
-        name: 'loading ...',
+        name: '...',
         address: '...',
         phone: '...',
         announcement: '...',
         prayzone: 'bandung',
+        differenceSelectedToSytemTimestamp: 0,
         praytimeManual: {
           Imsak: "04:11",
           Fajr: "05:33",
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     SET_PRAYTIME_MANUAL: (state, payload) => {
       state.config.data.praytimeManual = payload
+    },
+    SET_DIFFERENCE: (state, payload) => {
+      state.config.data.differenceSelectedToSytemTimestamp = payload
     }
   },
   actions: {

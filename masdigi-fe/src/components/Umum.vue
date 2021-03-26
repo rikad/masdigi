@@ -47,6 +47,11 @@ export default {
       this.$store.commit('SET_UMUM',this.form)
       this.$store.dispatch("SAVE_CONFIG");
       this.$store.dispatch("GET_PRAYTIME");
+
+      this.$bvToast.toast(`Menyimpan Data`, {
+        title: 'Menyimpan',
+        autoHideDelay: 5000,
+      });
     }
   },
 };

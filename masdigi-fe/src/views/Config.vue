@@ -14,7 +14,7 @@
               <b-nav-item to="/config/" exact exact-active-class="active">Umum</b-nav-item>
               <b-nav-item to="/config/galeri" exact exact-active-class="active">Galeri</b-nav-item>
               <b-nav-item to="/config/pengumuman" exact exact-active-class="active">Pengumuman</b-nav-item>
-              <b-nav-item to="/config/praytime" exact exact-active-class="active">Waktu Sholat</b-nav-item>
+              <b-nav-item to="/config/praytime" exact exact-active-class="active">Waktu</b-nav-item>
             </b-nav>
 
           </b-card-header>

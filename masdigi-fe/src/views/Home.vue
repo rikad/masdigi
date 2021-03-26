@@ -30,19 +30,19 @@
 
       <div id="timePray" class="row">
         <div class="col" style="background-color: rgba(34, 201, 109, 0.9)">
-          <b class="two" v-if="praytime"> Shubuh</b><br />{{ praytime.Fajr }}
+          <b class="two" v-if="praytime"> Shubuh</b><br />{{ praytime.Fajr.substr(0,5) }}
         </div>
         <div class="col" style="background-color: rgba(206, 40, 40, 0.9)">
-          <b class="two" v-if="praytime"> Dzuhur </b><br />{{ praytime.Dhuhr }}
+          <b class="two" v-if="praytime"> Dzuhur </b><br />{{ praytime.Dhuhr.substr(0,5) }}
         </div>
         <div class="col" style="background-color: rgba(214, 144, 64, 0.9)">
-          <b class="two" v-if="praytime"> Ashar </b><br />{{ praytime.Asr }}
+          <b class="two" v-if="praytime"> Ashar </b><br />{{ praytime.Asr.substr(0,5) }}
         </div>
         <div class="col" style="background-color: rgba(80, 219, 75, 0.9)">
-          <b class="two" v-if="praytime"> Maghrib </b><br />{{ praytime.Maghrib }}
+          <b class="two" v-if="praytime"> Maghrib </b><br />{{ praytime.Maghrib.substr(0,5) }}
         </div>
         <div class="col" style="background-color: rgba(59, 61, 202, 0.9)">
-          <b class="two" v-if="praytime"> Isya </b><br />{{ praytime.Isha }}
+          <b class="two" v-if="praytime"> Isya </b><br />{{ praytime.Isha.substr(0,5) }}
         </div>
       </div>
 
@@ -203,6 +203,11 @@ export default {
 
   },
   methods: {
+    getCurrentDateObject() {
+      let d = new Date();
+      d = new Date(d.getTime() - this.$store.state.config.data.differenceSelectedToSytemTimestamp);
+      return d;
+    },
     getPraytime() {
       //praytime from api
       // let d = new Date();
@@ -221,16 +226,16 @@ export default {
       this.praytime = data.praytimeManual
     },
     getTime() {
-      let d = new Date();
+      let d = this.getCurrentDateObject();
       this.waktu = `${this.toDouble(d.getHours())}:${this.toDouble(d.getMinutes())}:${this.toDouble(d.getSeconds())}`;
     },
     getHijriah() {
-      let m = new moment();
+      let m = new moment(this.getCurrentDateObject().getTime());
       m.locale("id");
       this.hijriah = m.format("iDD iMMMM iYYYY");
     },
     getMasehi() {
-      let d = new Date();
+      let d = this.getCurrentDateObject();
       this.masehi = `${d.getDate()} ${this.months[d.getMonth()]} ${d.getFullYear()}`;
       this.hari = this.days[d.getDay()];
     },

@@ -31,6 +31,12 @@ export default {
       console.log(this.announcement);
       this.$store.commit("SET_ANNOUNCEMENT", this.announcement);
       this.$store.dispatch("SAVE_CONFIG");
+
+      this.$bvToast.toast(`Menyimpan Data`, {
+        title: 'Menyimpan',
+        autoHideDelay: 5000,
+      });
+
     },
   },
 };
