@@ -2,7 +2,9 @@
 
 const PORT = 8000;
 
-front.send("get ip");
+setInterval(function() { 
+	front.send("get ip");
+}, 5000);
 
 front.on("send ip", function(msg){
 	console.log('ip : '+ msg);
