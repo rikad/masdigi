@@ -85,8 +85,15 @@ export default {
   methods: {
     getCurrentDateObject() {
       let d = new Date();
-      d = new Date(d.getTime() - this.$store.state.config.data.differenceSelectedToSytemTimestamp);
+      let diff = this.$store.state.config.data.differenceSelectedToSytemTimestamp;
+
+      if(diff == undefined) {
+        diff = 0;
+      }
+
+      d = new Date(d.getTime() - diff);
       return d;
+
     },
     save: function () {
         this.$store.commit("SET_DIFFERENCE", this.differenceSelectedToSytemTimestamp());

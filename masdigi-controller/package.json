@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "masdigi-controller",
     "app-name": "masdigi-controller",
-    "package-name": "id.ngulik.masdigicontroller",
+    "package-name": "webview",
     "project-type": "webview",
     "icon": "./assets/icon/icon.png",
     "dist-path": "./dist",
@@ -19,7 +19,6 @@
     "license": "ISC",
     "dependencies": {
         "androidjs": "^2.0.2",
-        "express": "^4.17.1",
         "url-exists": "^1.0.3"
     },
     "project-name": "masdigi-controller",

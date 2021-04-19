@@ -184,6 +184,10 @@ export default {
 
     let app = this;
 
+    if(app.$route.query.config) {
+      app.$router.push('config')
+    }
+
     //run every second
     setInterval(function () {
       app.getTime()
@@ -205,7 +209,13 @@ export default {
   methods: {
     getCurrentDateObject() {
       let d = new Date();
-      d = new Date(d.getTime() - this.$store.state.config.data.differenceSelectedToSytemTimestamp);
+      let diff = this.$store.state.config.data.differenceSelectedToSytemTimestamp;
+
+      if(diff == undefined) {
+        diff = 0;
+      }
+
+      d = new Date(d.getTime() - diff);
       return d;
     },
     getPraytime() {

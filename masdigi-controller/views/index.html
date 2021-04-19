@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Masdigi Controller</title>
+	<title>Webview Example</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" href="../assets/bootstrap.min.css">
@@ -11,22 +11,25 @@
 </head>
 
 <style>
-	.app {
-		font-size: 30px;
+	.app{
+		font-size:30px;
 	}
 </style>
 
 <body>
 
 <div class="container h-100 d-flex justify-content-center">
-    <div class="jumbotron my-auto" style="text-align:center">
-      <h3 class="display-3" id='msg'>Welcome, Connecting ... </h3>
+    <div class="jumbotron my-auto" style="text-align: center;">
+      <p> Mencari Perangkat TV ...</p>
+      <div class="loader" style="margin:auto"></div>
       <hr>
-      <p>Koneksikan ke Hotspot TV sebelum membuka aplikasi controller</p>
+      <input type="text" class="form-control" placeholder="192.168.1.1" id='inputIP'>
+      <br>
+      <button class="btn btn-primary" onclick="btnGO()">Connect</button>
     </div>
  </div>
 
-<script type="text/javascript" src = "../assets/script.js"></script>
+<script type="text/javascript" src = "./script.js"></script>
 <script src="../assets/jquery-3.3.1.slim.min.js"></script>
 <script src="../assets/popper.min.js"></script>
 <script src="../assets/bootstrap.min.js"></script>
@@ -47,13 +50,27 @@
     background: #fff;
   }
 
-</style>
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
 
-  <script>
-    setTimeout(function() {
-      window.location.href = 'http://localhost:3000'
-    }, 10000);
-  </script>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+</style>
+<script type="text/javascript">
+	function toggle_popover() {
+		$('#popover').popover('toggle')
+	}
+</script>
 </body>
 
 </html>
