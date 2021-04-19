@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swiper loop :autoplay="5000" v-if="config.data.galeri">
+    <swiper loop :autoplay="5000" v-if="config.data.galeri" :effect="fade">
       <div v-for="(val, idx) in config.data.galeri" v-bind:key="idx">
         <img :src="val.link" />
       </div>
