@@ -71,12 +71,12 @@ export default {
     };
   },
   mounted: function () {
-    this.form.Imsak = this.$store.state.config.data.praytimeManual.Imsak;
-    this.form.Fajr = this.$store.state.config.data.praytimeManual.Fajr;
-    this.form.Dhuhr = this.$store.state.config.data.praytimeManual.Dhuhr;
-    this.form.Asr = this.$store.state.config.data.praytimeManual.Asr;
-    this.form.Maghrib = this.$store.state.config.data.praytimeManual.Maghrib;
-    this.form.Isha = this.$store.state.config.data.praytimeManual.Isha;
+    this.form.Imsak = this.$store.state.config.data.praytime.Imsak;
+    this.form.Fajr = this.$store.state.config.data.praytime.Fajr;
+    this.form.Dhuhr = this.$store.state.config.data.praytime.Dhuhr;
+    this.form.Asr = this.$store.state.config.data.praytime.Asr;
+    this.form.Maghrib = this.$store.state.config.data.praytime.Maghrib;
+    this.form.Isha = this.$store.state.config.data.praytime.Isha;
 
     let d = this.getCurrentDateObject();
     this.date = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
@@ -97,7 +97,7 @@ export default {
     },
     save: function () {
         this.$store.commit("SET_DIFFERENCE", this.differenceSelectedToSytemTimestamp());
-        this.$store.commit("SET_PRAYTIME_MANUAL", this.form);
+        this.$store.commit("SET_PRAYTIME", this.form);
         this.$store.dispatch("SAVE_CONFIG");
 
         this.$bvToast.toast(`Menyimpan Data`, {

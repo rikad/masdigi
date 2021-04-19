@@ -25,7 +25,7 @@
 
     <div id="bottom">
       <div id="imsakTime" v-if="praytime">
-        <b>Imsak - {{ praytime.Imsak }}</b>
+        <b>Imsak - {{ praytime.Imsak.substr(0,5) }}</b>
       </div>
 
       <div id="timePray" class="row">
@@ -132,8 +132,7 @@ img {
 </style>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+
 import moment from "moment-hijri";
 import { Swiper } from "vue2-swiper";
 
@@ -163,8 +162,7 @@ export default {
       hari: 0,
       waktu: 0,
       masehi: 0,
-      hijriah: 0,
-      praytime: '',
+      hijriah: 0
     };
   },
   computed: {
@@ -178,6 +176,9 @@ export default {
     prayzone() {
       let prayzone = this.$store.state.config.data.prayzone;
       return prayzone.toUpperCase();
+    },
+    praytime() {
+      return this.$store.state.config.data.praytime;
     }
   },
   created() {
@@ -193,16 +194,11 @@ export default {
       app.getTime()
       app.getHijriah()
       app.getMasehi()
-      app.getPraytime()
     }, 1000);
 
     //run every 5 second
     setInterval(function () {
       app.$store.dispatch("GET_CONFIG");
-
-      // disabled praytime api
-      // app.$store.dispatch("GET_PRAYTIME");
-
     }, 5000);
 
   },
@@ -217,23 +213,6 @@ export default {
 
       d = new Date(d.getTime() - diff);
       return d;
-    },
-    getPraytime() {
-      //praytime from api
-      // let d = new Date();
-      // let date = d.getDate();
-      // let data = this.$store.state.config.data;
-      // if(data.praytime) { 
-      //   if(data.praytime[date]) {
-      //     this.praytime = data.praytime[date].times
-      //   } else {
-      //     this.praytime = data.praytime[0].times
-      //   }
-      // }
-      //end of praytime from api
-
-      let data = this.$store.state.config.data;
-      this.praytime = data.praytimeManual
     },
     getTime() {
       let d = this.getCurrentDateObject();
