@@ -1,66 +1,80 @@
 <template>
-  <div>
-    <swiper loop :autoplay="5000" v-if="config.data.galeri" :effect="fade">
-      <div v-for="(val, idx) in config.data.galeri" v-bind:key="idx">
-        <img :src="val.link" />
-      </div>
-    </swiper>
-
+  <div id="homepage">
     <div id="top" class="row">
-      <div id="date" class="col">
-        <b>{{ hari }},</b><br />{{ masehi }} M<br />{{ hijriah }}<br>
-        <b>{{ prayzone }}</b>
+      <div id="date" class="col-3">
+        <span class="day">{{ hari }},</span><br />
+        <span class="masehi"> {{ masehi }} M </span><br />
+        <span class="hijriah">{{ hijriah }}</span>
       </div>
-      <div id="title" class="col">
-        <router-link to="/config"
-          ><h1>{{ config.data.name }}</h1></router-link
-        >
-        <p>{{ config.data.address }}</p>
-        <h2>{{ config.data.phone }}</h2>
+      <div id="title" class="col-6">
+        <router-link to="/config"><h1>{{ config.data.name }}</h1></router-link>
+        <p>
+          <span id="txtaddress">{{ config.data.address }}</span>
+          <br>
+          <span id="txtphone">{{ config.data.phone }}</span>
+        </p>
       </div>
-      <div id="time" class="col">
-        {{ waktu }}
-      </div>
+      <div id="time" class="col-3">{{ waktu }}</div>
     </div>
 
-    <div id="bottom">
-      <div id="imsakTime" v-if="praytime">
-        <b>Imsak - {{ praytime.Imsak.substr(0,5) }}</b>
-      </div>
+   <div id="bottom">
 
       <div id="timePray" class="row">
-        <div class="col" style="background-color: rgba(34, 201, 109, 0.9)">
-          <b class="two" v-if="praytime"> Shubuh</b><br />{{ praytime.Fajr.substr(0,5) }}
+        <div class="col">
+          <div class="title" style="background-color: rgba(2, 48, 71, 0.9)" v-if="praytime"> Shubuh </div>
+          <div class="time" style="background-color: rgba(2, 48, 71, 0.7)">  {{ praytime.Fajr.substr(0,5) }} </div>
         </div>
-        <div class="col" style="background-color: rgba(206, 40, 40, 0.9)">
-          <b class="two" v-if="praytime"> Dzuhur </b><br />{{ praytime.Dhuhr.substr(0,5) }}
+        <div class="col">
+          <div class="title" style="background-color: rgba(61, 64, 91, 0.9)" v-if="praytime"> Syuruq</div>
+          <div class="time" style="background-color: rgba(61, 64, 91, 0.7)"> {{ praytime.Fajr.substr(0,5) }}</div>
         </div>
-        <div class="col" style="background-color: rgba(214, 144, 64, 0.9)">
-          <b class="two" v-if="praytime"> Ashar </b><br />{{ praytime.Asr.substr(0,5) }}
+        <div class="col">
+          <div class="title" style="background-color: rgba(19, 42, 19, 0.9)" v-if="praytime"> Dzuhur </div>
+          <div class="time"  style="background-color: rgba(19, 42, 19, 0.7)"> {{ praytime.Dhuhr.substr(0,5) }}</div>
         </div>
-        <div class="col" style="background-color: rgba(80, 219, 75, 0.9)">
-          <b class="two" v-if="praytime"> Maghrib </b><br />{{ praytime.Maghrib.substr(0,5) }}
+        <div class="col">
+          <div class="title" style="background-color: rgba(50, 48, 49, 0.9)" v-if="praytime"> Ashar </div>
+          <div class="time" style="background-color: rgba(50, 48, 49, 0.7)"> {{ praytime.Asr.substr(0,5) }}</div>
         </div>
-        <div class="col" style="background-color: rgba(59, 61, 202, 0.9)">
-          <b class="two" v-if="praytime"> Isya </b><br />{{ praytime.Isha.substr(0,5) }}
+        <div class="col">
+          <div class="title" style="background-color: rgba(98, 23, 8, 0.9)" v-if="praytime"> Maghrib </div>
+          <div class="time"  style="background-color: rgba(98, 23, 8, 0.7)"> {{ praytime.Maghrib.substr(0,5) }}</div>
+        </div>
+        <div class="col">
+          <div class="title" style="background-color: rgba(59, 61, 202, 0.9)" v-if="praytime"> Isya </div>
+          <div class="time"  style="background-color: rgba(59, 61, 202, 0.7)"> {{ praytime.Isha.substr(0,5) }}</div>
         </div>
       </div>
 
-      <div id="runText" class="row">
+      <div id="runText">
         <marquee v-html="announcement"></marquee>
       </div>
     </div>
+
+    <vue-flux
+      :options="vfOptions"
+      :images="vfImages"
+      :transitions="vfTransitions"
+      ref="slider"
+      style="width:100vw; height:100vh; z-index: -99"
+      >
+    </vue-flux>
+
   </div>
 </template>
 
 <style scoped>
-* {
-  font-size: 1.3rem;
+
+@font-face {
+  font-family: "Ramadhan";
+  font-weight: 400;
+  font-style: normal;
+  font-display: auto;
+  src: url("/aAwalRamadhan.otf"), url("/aAwalRamadhan.ttf");
 }
 
-img {
-  width: 100vw;
-  height: 100vh;
+* {
+  font-size: 1.3rem;
 }
 
 #top {
@@ -69,8 +83,8 @@ img {
   width: 100vw;
   background-color: rgba(41, 41, 214, 0.6);
   color: white;
-  padding: 1em;
   margin: 0;
+  padding: 1rem;
 }
 
 #bottom {
@@ -83,43 +97,81 @@ img {
   text-align: center;
   background-color: rgba(255, 255, 255, 0.8);
   color: black;
-  width: 30%;
-  padding: 8px;
+  width: 20vw;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
-#date {
-  padding: 1em;
+#date span {
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 0;
+}
+
+#date .hijriah {
+  font-family: "Ramadhan";
+}
+
+#date .masehi {
+  font-family: "Ramadhan";
 }
 
 #title {
   text-align: center;
+  font-family: "Ramadhan";
 }
 
 #title h1 {
-  color: yellow;
+  color: #ffb703;
   font-size: 2em;
+  margin: 0;
 }
 
-#title h2 {
-  color: yellow;
-  font-size: 1em;
+#title #txtphone {
+  color: #ffb703;
+  font-size: 1.3em;
+}
+
+#title p {
+  margin: 0;
 }
 
 #time {
   text-align: right;
-  font-size: 2em;
-  padding-top: 1em;
+  font-size: 3em;
+  padding-top: 0.8rem;
+  font-family: "Ramadhan";
 }
 
 #timePray {
   text-align: center;
   width: 100%;
   margin: 0;
+  padding: 0;
 }
 
 #timePray .col {
-  padding: 15px;
+  padding: 0;
   margin: 5px;
+  border-radius: 4px;
+}
+
+#timePray .title {
+  font-size: 1.3em;
+  margin: 0;
+  padding: 0;
+  color: #ffb703;
+  font-weight: bold;
+}
+
+#timePray .time {
+  font-size: 1.8em;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  color: white;
+  font-family: "Ramadhan";
 }
 
 #runText {
@@ -129,16 +181,22 @@ img {
   width: 100%;
   margin: 0;
 }
+
+#runText marquee {
+  font-size: 1.3em;
+}
 </style>
 
 <script>
 
 import moment from "moment-hijri";
-import { Swiper } from "vue2-swiper";
+import {
+   VueFlux
+} from 'vue-flux';
 
 export default {
   components: {
-    Swiper,
+    VueFlux
   },
   data() {
     return {
@@ -162,7 +220,14 @@ export default {
       hari: 0,
       waktu: 0,
       masehi: 0,
-      hijriah: 0
+      hijriah: 0,
+
+      vfOptions: {
+         autoplay: true
+      },
+      // vfImages: [],
+      vfTransitions: [ 'fade', 'kenburn', 'swipe', 'slide', 'waterfall', 'blocks1', 'explode' ],
+
     };
   },
   computed: {
@@ -179,6 +244,10 @@ export default {
     },
     praytime() {
       return this.$store.state.config.data.praytime;
+    },
+    vfImages() {
+      let galeri = this.$store.state.config.data.galeri; 
+      return galeri ? galeri.map(x => x.link) : [];
     }
   },
   created() {
