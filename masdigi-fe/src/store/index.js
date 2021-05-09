@@ -19,11 +19,12 @@ export default new Vuex.Store({
         differenceSelectedToSytemTimestamp: 0,
         praytime: {
           Imsak: "04:11",
-          Fajr: "05:33",
-          Dhuhr: "04:21",
+          Fajr: "04:21",
+          Syuruq: "05:33",
+          Dhuhr: "12:11",
           Asr: "15:20",
           Maghrib: "18:23",
-          Isha: "19:20",
+          Isha: "19:20"
         }
       }
     }

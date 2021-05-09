@@ -26,7 +26,7 @@
         </div>
         <div class="col">
           <div class="title" style="background-color: rgba(61, 64, 91, 0.9)" v-if="praytime"> Syuruq</div>
-          <div class="time" style="background-color: rgba(61, 64, 91, 0.7)"> {{ praytime.Fajr.substr(0,5) }}</div>
+          <div class="time" style="background-color: rgba(61, 64, 91, 0.7)"> {{ praytime.Syuruq.substr(0,5) }}</div>
         </div>
         <div class="col">
           <div class="title" style="background-color: rgba(19, 42, 19, 0.9)" v-if="praytime"> Dzuhur </div>
