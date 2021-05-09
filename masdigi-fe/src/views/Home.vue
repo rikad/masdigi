@@ -14,7 +14,10 @@
           <span id="txtphone">{{ config.data.phone }}</span>
         </p>
       </div>
-      <div id="time" class="col-3">{{ waktu }}</div>
+      <div id="time" class="col-3">
+        <div class="now"> {{ waktu }} </div>
+        <div class="countdown"> {{ countdown.name }} - {{ countdown.time }} </div>
+      </div>
     </div>
 
    <div id="bottom">
@@ -139,10 +142,23 @@
 
 #time {
   text-align: right;
-  font-size: 3em;
-  padding-top: 0.8rem;
-  font-family: "Ramadhan";
 }
+
+#time .now {
+  text-align: right;
+  font-size: 3em;
+  padding-top: 2rem;
+  font-family: "Ramadhan";
+  line-height: 0.5em;
+}
+
+#time .countdown {
+  text-align: right;
+  font-size: 1.3em;
+  font-family: "Ramadhan";
+  color: #ffb703;
+}
+
 
 #timePray {
   text-align: center;
@@ -227,6 +243,10 @@ export default {
       },
       // vfImages: [],
       vfTransitions: [ 'fade', 'kenburn', 'swipe', 'slide', 'waterfall', 'blocks1', 'explode' ],
+      countdown: {
+        name: '',
+        time: 0
+      }
 
     };
   },
@@ -260,9 +280,13 @@ export default {
 
     //run every second
     setInterval(function () {
-      app.getTime()
-      app.getHijriah()
-      app.getMasehi()
+      let dateObj = app.getCurrentDateObject();
+
+      app.getTime(dateObj)
+      app.getHijriah(dateObj)
+      app.getMasehi(dateObj)
+      app.getCountdown(dateObj)
+
     }, 1000);
 
     //run every 5 second
@@ -283,17 +307,15 @@ export default {
       d = new Date(d.getTime() - diff);
       return d;
     },
-    getTime() {
-      let d = this.getCurrentDateObject();
+    getTime(d) {
       this.waktu = `${this.toDouble(d.getHours())}:${this.toDouble(d.getMinutes())}:${this.toDouble(d.getSeconds())}`;
     },
-    getHijriah() {
-      let m = new moment(this.getCurrentDateObject().getTime());
+    getHijriah(d) {
+      let m = new moment(d.getTime());
       m.locale("id");
       this.hijriah = m.format("iDD iMMMM iYYYY");
     },
-    getMasehi() {
-      let d = this.getCurrentDateObject();
+    getMasehi(d) {
       this.masehi = `${d.getDate()} ${this.months[d.getMonth()]} ${d.getFullYear()}`;
       this.hari = this.days[d.getDay()];
     },
@@ -301,6 +323,33 @@ export default {
       let str = v.toString();
       return str.length === 1 ? "0" + str.toString() : str;
     },
+    praytimeToObj(p) {
+      let time = p.split(':'); //ex 15:10
+      return { hour: parseInt(time[0]), minute: parseInt(time[1]), second: 0 }
+    },
+    getCountdown(d) {
+      let currentHour = d.getHours();
+      let currentMinute = d.getMinutes();
+      let currentSecond = d.getSeconds();
+
+      for(const x in this.praytime) {
+        let next = this.praytimeToObj(this.praytime[x])
+        let remaining = (next.hour * 60 + next.minute) - (currentHour * 60 + currentMinute);
+        let remainingHour = this.toDouble(Math.floor(remaining/60));
+        let remainingMinute = this.toDouble(remaining%60);
+
+        if(remaining > 0) {
+
+          this.countdown = {
+            name: x,
+            time: `${remainingHour}:${remainingMinute}:${60 - currentSecond}`
+          }
+
+          break;
+        }
+      }
+
+    }
   },
   mounted() {
   },
