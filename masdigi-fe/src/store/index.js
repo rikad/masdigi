@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // api: window.location.protocol + "//" + window.location.host,
-    api: 'http://localhost:8000',
+    api: '',
     config: {
       version: '0',
       data: {
