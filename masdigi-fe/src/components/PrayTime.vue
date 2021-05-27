@@ -12,12 +12,12 @@
 
     <b-row>
       <b-col md="auto">
-        <h3>Imsak</h3>
-        <b-time v-model="form.Imsak" locale="id"></b-time>
-      </b-col>
-      <b-col md="auto">
         <h3>Shubuh</h3>
         <b-time v-model="form.Fajr" locale="id"></b-time>
+      </b-col>
+      <b-col md="auto">
+        <h3>Syuruq</h3>
+        <b-time v-model="form.Syuruq" locale="id"></b-time>
       </b-col>
     </b-row>
     <hr>
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       form: {
-        Imsak: "",
+        Syuruq: "",
         Fajr: "",
         Dhuhr: "",
         Asr: "",
@@ -71,7 +71,7 @@ export default {
     };
   },
   mounted: function () {
-    this.form.Imsak = this.$store.state.config.data.praytime.Imsak;
+    this.form.Syuruq = this.$store.state.config.data.praytime.Syuruq;
     this.form.Fajr = this.$store.state.config.data.praytime.Fajr;
     this.form.Dhuhr = this.$store.state.config.data.praytime.Dhuhr;
     this.form.Asr = this.$store.state.config.data.praytime.Asr;

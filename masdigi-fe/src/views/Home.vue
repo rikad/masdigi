@@ -63,6 +63,13 @@
       >
     </vue-flux>
 
+    <div id="customModal" v-if="countdownModal != 0">
+      <div class="content">
+        <p class="countdown" v-if="typeof countdownModal !== 'string'">{{ countdownModal }}</p>
+        <p class="adzan" v-if="typeof countdownModal === 'string'">Selamat Menunaikan Ibadah Sholat {{ countdownModal }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -79,6 +86,45 @@
 * {
   font-size: 1.3rem;
 }
+
+#customModal {
+  background: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5rem 20rem 5rem 20rem;
+}
+
+#customModal .content {
+  text-align: center;
+  background: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  font-family: "Ramadhan";
+  padding: 1em;
+  opacity: 0.8;
+}
+
+#customModal h1 {
+  font-size: 5rem;
+  background-color: rgb(41, 41, 214);
+  color: #ffb703;
+}
+
+#customModal .countdown {
+  font-size: 20rem;
+  line-height: 25rem;
+}
+
+#customModal .adzan {
+  font-size: 6rem;
+  line-height: 7rem;
+}
+
 
 #top {
   position: absolute;
@@ -103,11 +149,11 @@
   width: 20vw;
   padding: 0.5rem;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
 #date span {
-  font-size: 1.2em;
+  font-size: 1.6rem;
   font-weight: bold;
   line-height: 0;
 }
@@ -127,13 +173,13 @@
 
 #title h1 {
   color: #ffb703;
-  font-size: 2em;
+  font-size: 3rem;
   margin: 0;
 }
 
 #title #txtphone {
   color: #ffb703;
-  font-size: 1.3em;
+  font-size: 1.6rem;
 }
 
 #title p {
@@ -146,15 +192,15 @@
 
 #time .now {
   text-align: right;
-  font-size: 3em;
+  font-size: 5rem;
   padding-top: 2rem;
   font-family: "Ramadhan";
-  line-height: 0.5em;
+  line-height: 3rem;
 }
 
 #time .countdown {
   text-align: right;
-  font-size: 1.3em;
+  font-size: 1.8rem;
   font-family: "Ramadhan";
   color: #ffb703;
 }
@@ -174,7 +220,7 @@
 }
 
 #timePray .title {
-  font-size: 1.3em;
+  font-size: 1.8rem;
   margin: 0;
   padding: 0;
   color: #ffb703;
@@ -182,7 +228,7 @@
 }
 
 #timePray .time {
-  font-size: 1.8em;
+  font-size: 3rem;
   margin: 0;
   padding: 0;
   font-weight: bold;
@@ -199,16 +245,14 @@
 }
 
 #runText marquee {
-  font-size: 1.3em;
+  font-size: 1.8rem;
 }
 </style>
 
 <script>
 
 import moment from "moment-hijri";
-import {
-   VueFlux
-} from 'vue-flux';
+import { VueFlux } from 'vue-flux';
 
 export default {
   components: {
@@ -217,6 +261,15 @@ export default {
   data() {
     return {
       days: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"],
+      praytimeID: {
+        Imsak: "Imsak",
+        Fajr: "Syubuh",
+        Syuruq: "Syuruq",
+        Dhuhr: "Dhuhur",
+        Asr: "Ashar",
+        Maghrib: "Maghrib",
+        Isha: "Isha"
+      },
 
       months: [
         "Januari",
@@ -246,7 +299,8 @@ export default {
       countdown: {
         name: '',
         time: 0
-      }
+      },
+      countdownModal: 0
 
     };
   },
@@ -332,22 +386,49 @@ export default {
       let currentMinute = d.getMinutes();
       let currentSecond = d.getSeconds();
 
+      //calculate remaining praytime
+      let remainingAll = []
       for(const x in this.praytime) {
-        let next = this.praytimeToObj(this.praytime[x])
-        let remaining = (next.hour * 60 + next.minute) - (currentHour * 60 + currentMinute);
-        let remainingHour = this.toDouble(Math.floor(remaining/60));
-        let remainingMinute = this.toDouble(remaining%60);
+        let tmp = []
+        let nextPrayObj = this.praytimeToObj(this.praytime[x])
+        tmp[0] = x;
+        tmp[1] = (nextPrayObj.hour * 60 + nextPrayObj.minute) - (currentHour * 60 + currentMinute);
 
-        if(remaining > 0) {
-
-          this.countdown = {
-            name: x,
-            time: `${remainingHour}:${remainingMinute}:${60 - currentSecond}`
-          }
-
-          break;
+        if(tmp[1] >= 0) {
+          remainingAll.push(tmp)
         }
       }
+
+      remainingAll.sort(function(a, b){return a[1] - b[1]}); //sort
+
+      let nextPray = this.praytimeID['Fajr']
+      let prayObj = this.praytimeToObj(this.praytime['Fajr'])
+      let remaining = ( (24*60) + (prayObj.hour * 60) + prayObj.minute) - (currentHour * 60 + currentMinute);
+
+      if(remainingAll.length > 0) {
+        nextPray = this.praytimeID[remainingAll[0][0]]
+        remaining = remainingAll[0][1]
+      }
+
+      let remainingHour = this.toDouble(Math.floor(remaining/60));
+      let remainingMinute = this.toDouble(remaining%60);
+      let remainingSecond = 60 - currentSecond;
+
+      this.countdown = {
+        name: nextPray,
+        time: `${remainingHour}:${remainingMinute}:${remainingSecond}`
+      }
+
+      if(remaining == 1) {
+        this.countdownModal = remainingSecond; //countdown
+      } else if(remaining == 0 ) {
+        this.countdownModal = nextPray; //adzan
+      } else {
+        this.countdownModal = 0
+      }
+
+    },
+    showModal() {
 
     }
   },
