@@ -1,9 +1,6 @@
 masdigi-controller/node_modules
-masdigi-controller/dist
-masdigi-controller/dist/masdigi-controller.apk
 masdigi-controller/public
 masdigi-fe/node_modules
 masdigi-tv/node_modules
 masdigi-tv/public
-masdigi-tv/dist
-masdigi-tv/dist/masdigi.apk
+
